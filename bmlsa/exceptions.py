@@ -1,0 +1,2 @@
+class UnexpectedAlignmentResult(Exception):
+    pass

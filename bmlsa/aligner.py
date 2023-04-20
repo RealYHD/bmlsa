@@ -1,33 +1,43 @@
-from skbio.alignment import StripedSmithWaterman
+from Bio.Align import PairwiseAligner, substitution_matrices
+from exceptions import UnexpectedAlignmentResult
 
-from datatypes import Annotation
+from datatypes import AlignedSequence
 
 
-def generate_annotated_positions(sequence: str, annotations: dict[str, Annotation]):
+def protein_align_many_to_one_ssw(sequence: str, queries: dict[str, AlignedSequence]):
     annotation_pairs = {}
-    align = StripedSmithWaterman(sequence)
-    for id, annot in annotations.items():
-        alignment = align(annot.sequence)
-        score, aligned_start, aligned_end = (
-            alignment.optimal_alignment_score,
-            alignment.query_begin,
-            alignment.query_end,
-        )
-        annotation_pairs[id] = Annotation(
-            id,
-            annot.sequence,
-            annot.name,
-            annot.description,
-            annot.start,
-            annot.end,
-            annot.score,
-        ), Annotation(
-            id,
-            alignment.aligned_target_sequence,
-            annot.name,
-            annot.description,
-            aligned_start,
-            aligned_end,
-            score,
-        )
+    aligner = PairwiseAligner(one_alignment_only=True)
+    aligner.mode = "local"
+    aligner.substitution_matrix = substitution_matrices.load("BLOSUM62")
+    aligner.extend_gap_score = -1
+    aligner.open_gap_score = -11
+    for id, query in queries.items():
+        try:
+            alignments = aligner.align(sequence, query.sequence)
+        except ValueError:
+            continue
+        if len(alignments) > 1:
+            raise UnexpectedAlignmentResult(
+                "More than one alignment resulted from a single query."
+            )
+        for alignment in alignments:
+            score, query_aligned = (alignment.score, alignment.aligned[0][0])
+            aligned_start, aligned_end = query_aligned
+            annotation_pairs[id] = AlignedSequence(
+                id,
+                query.sequence,
+                query.name,
+                query.description,
+                query.start,
+                query.end,
+                query.score,
+            ), AlignedSequence(
+                id,
+                alignment.query,
+                query.name,
+                query.description,
+                aligned_start,
+                aligned_end,
+                score,
+            )
     return annotation_pairs

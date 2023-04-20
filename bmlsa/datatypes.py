@@ -1,4 +1,4 @@
-class Annotation:
+class AlignedSequence:
     def __init__(
         self,
         id: str,

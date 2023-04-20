@@ -1,5 +1,5 @@
 import csv
-from datatypes import Annotation
+from datatypes import AlignedSequence
 
 
 def read_annotations_from_csv(
@@ -37,7 +37,7 @@ def read_annotations_from_csv(
             start = row[start_ind] if start_header else None
             end = row[end_ind] if end_header else None
             sequence = row[sequence_ind]
-            annotations[id] = Annotation(
+            annotations[id] = AlignedSequence(
                 id,
                 sequence,
                 name,
@@ -49,7 +49,7 @@ def read_annotations_from_csv(
 
 
 def save_alignments_to_csv(
-    aligned_pairs: dict[str, tuple[Annotation, Annotation]], output_path: str
+    aligned_pairs: dict[str, tuple[AlignedSequence, AlignedSequence]], output_path: str
 ):
     with open(output_path, "w") as output_fd:
         writer = csv.writer(output_fd)

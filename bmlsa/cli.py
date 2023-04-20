@@ -1,7 +1,7 @@
 import os
 import argparse
 from Bio import SeqIO
-from aligner import generate_annotated_positions
+from aligner import protein_align_many_to_one_ssw
 
 from persistence import read_annotations_from_csv, save_alignments_to_csv
 
@@ -78,7 +78,7 @@ def main():
     )
     with open(args.sequence, "r") as sequence_fd:
         for sequence in SeqIO.parse(sequence_fd, "fasta"):
-            aligned_annotations = generate_annotated_positions(
+            aligned_annotations = protein_align_many_to_one_ssw(
                 str(sequence.seq), given_annotations
             )
             save_alignments_to_csv(
