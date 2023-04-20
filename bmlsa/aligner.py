@@ -6,7 +6,7 @@ from datatypes import AlignedSequence
 
 def protein_align_many_to_one_ssw(sequence: str, queries: dict[str, AlignedSequence]):
     annotation_pairs = {}
-    aligner = PairwiseAligner(one_alignment_only=True)
+    aligner = PairwiseAligner()
     aligner.mode = "local"
     aligner.substitution_matrix = substitution_matrices.load("BLOSUM62")
     aligner.extend_gap_score = -1
