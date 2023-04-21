@@ -1,5 +1,6 @@
 import csv
-from datatypes import AlignedSequence
+
+from bmlsa.datatypes import AlignedSequence
 
 
 def read_annotations_from_csv(

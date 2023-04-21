@@ -1,7 +1,6 @@
 from Bio.Align import PairwiseAligner, substitution_matrices
-from exceptions import UnexpectedAlignmentResult
-
-from datatypes import AlignedSequence
+from bmlsa.datatypes import AlignedSequence
+from bmlsa.exceptions import UnexpectedAlignmentResult
 
 
 def protein_align_many_to_one_ssw(sequence: str, queries: dict[str, AlignedSequence]):

@@ -1,9 +1,9 @@
 import os
 import argparse
 from Bio import SeqIO
-from aligner import protein_align_many_to_one_ssw
+from bmlsa.aligner import protein_align_many_to_one_ssw
 
-from persistence import read_annotations_from_csv, save_alignments_to_csv
+from bmlsa.persistence import read_annotations_from_csv, save_alignments_to_csv
 
 
 def main():
