@@ -1,0 +1,8 @@
+name: bmlsa
+channels:
+  - conda-forge
+dependencies:
+  - biopython=1.81
+  - build=0.7
+  - pytest=7
+  - twine=4
