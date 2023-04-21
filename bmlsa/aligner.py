@@ -35,7 +35,7 @@ def protein_align_many_to_one_ssw(sequence: str, queries: dict[str, AlignedSeque
                 alignment.query,
                 query.name,
                 query.description,
-                aligned_start,
+                int(aligned_start) + 1,
                 aligned_end,
                 score,
             )
