@@ -20,6 +20,7 @@ pipeline {
         stage("test") {
             steps {
                 sh "pip install dist/*.whl"
+                sh "bmlsa -h"
             }
         }
         stage("publish") {
