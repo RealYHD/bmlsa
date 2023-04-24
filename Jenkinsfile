@@ -20,6 +20,12 @@ pipeline {
         stage("test") {
             steps {
                 sh "pip install dist/*.whl"
+                sh "bmlsa -h"
+            }
+        }
+        stage("archive") {
+            steps {
+                archiveArtifacts artifacts: 'dist/*.tar.gz, dist/*.whl'
             }
         }
         stage("publish") {
