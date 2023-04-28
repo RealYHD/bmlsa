@@ -27,6 +27,7 @@ pipeline {
             steps {
                 sh "pip install dist/*.whl --force-reinstall"
                 sh "bmlsa -h"
+                sh "bmlsa -I id -S sequence -B BLASTp tests/resources/SARS_CoV-2_genes.csv tests/resources/NC_045512_coding.fasta /output/"
             }
         }
         stage("archive") {
