@@ -4,5 +4,8 @@ channels:
 dependencies:
   - biopython=1.81
   - build=0.7
-  - pytest=7
+  - pytest=7.3
+  - hypothesis=6.56
   - twine=4
+  - python-build=0.10.0
+  - setuptools

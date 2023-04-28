@@ -12,14 +12,20 @@ pipeline {
                 sh 'echo "mamba activate bmlsa" >> ~/.bashrc'
             }
         }
+        stage("unit tests") {
+            steps {
+                sh "python -m pytest --junitxml=test_results.xml"
+                xunit checksName: '', tools: [JUnit(excludesPattern: '', pattern: 'test_results.xml', stopProcessingIfError: true)]
+            }
+        }
         stage("build") {
             steps {
                 sh "python -m build"
             }
         }
-        stage("test") {
+        stage("test installation") {
             steps {
-                sh "pip install dist/*.whl"
+                sh "pip install dist/*.whl --force-reinstall"
                 sh "bmlsa -h"
             }
         }
