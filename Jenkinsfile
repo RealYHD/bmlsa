@@ -1,26 +1,33 @@
 pipeline {
     agent any
     stages {
-        stage("clean") {
-            steps {
-                sh 'rm -rf ./dist/*'
-            }
-        }
         stage("install") {
             steps {
-                sh 'mamba env update --file environment.yml'
+                sh 'mamba env update --file environment.yml || mamba env create --force --file environment.yml'
                 sh 'echo "mamba activate bmlsa" >> ~/.bashrc'
+            }
+        }
+        stage("unit tests") {
+            steps {
+                sh "python -m pytest --junitxml=test_results.xml"
+                xunit checksName: '', tools: [JUnit(excludesPattern: '', pattern: 'test_results.xml', stopProcessingIfError: true)]
             }
         }
         stage("build") {
             steps {
+                sh 'rm -rf ./dist/*'
+                sh 'rm -rf ./docs/build/*'
                 sh "python -m build"
+                sh 'sphinx-apidoc -o docs/source/ src/bmlsa --force'
+                sh 'make -C docs html'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'docs/build/html', reportFiles: 'index.html', reportName: 'Documentation', reportTitles: ''])
             }
         }
-        stage("test") {
+        stage("test installation") {
             steps {
-                sh "pip install dist/*.whl"
+                sh "pip install dist/*.whl --force-reinstall"
                 sh "bmlsa -h"
+                sh "bmlsa -I id -S sequence -B BLASTp tests/resources/SARS_CoV-2_genes.csv tests/resources/NC_045512_coding.fasta ./output/"
             }
         }
         stage("archive") {
