@@ -7,4 +7,5 @@ dependencies:
   - hypothesis=6.56
   - twine=4
   - python-build=0.10.0
-  - setuptools
+  - setuptools=67.6
+  - sphinx=6.2
