@@ -4,6 +4,7 @@ pipeline {
         stage("clean") {
             steps {
                 sh 'rm -rf ./dist/*'
+                sh 'rm -rf ./docs/build/*'
             }
         }
         stage("install") {
