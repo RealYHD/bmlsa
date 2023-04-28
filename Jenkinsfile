@@ -24,7 +24,7 @@ pipeline {
                 sh "python -m build"
                 sh 'sphinx-apidoc -o docs/source/ src/bmlsa --force'
                 sh 'make -C docs html'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'docs/build/html', reportFiles: 'index.html', reportName: 'BMLSA Docs', reportTitles: ''])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'docs/build/html', reportFiles: 'index.html', reportName: 'BMLSA', reportTitles: ''])
             }
         }
         stage("test installation") {
