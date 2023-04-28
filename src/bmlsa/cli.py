@@ -182,7 +182,6 @@ def main():
         required=False,
         default=None,
     )
-    arg_parser.add
     args = arg_parser.parse_args()
     run(args)
 
