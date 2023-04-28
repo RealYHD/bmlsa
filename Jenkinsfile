@@ -18,7 +18,7 @@ pipeline {
                 sh 'rm -rf ./dist/*'
                 sh 'rm -rf ./docs/build/*'
                 sh "python -m build"
-                sh 'sphinx-apidoc -o docs/source/ src/bmlsa --force'
+                sh 'sphinx-apidoc -o docs/source/autodoc/bmlsa src/bmlsa --force'
                 sh 'make -C docs html'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'docs/build/html', reportFiles: 'index.html', reportName: 'Documentation', reportTitles: ''])
             }

@@ -7,10 +7,11 @@ Welcome to BMLSA's documentation!
 =================================
 
 .. toctree::
+   :glob:
    :maxdepth: 2
    :caption: Contents:
    
-   modules
+   autodoc/**/modules
 
 
 Indices and tables
