@@ -39,6 +39,10 @@ def run(args):
         args.end_header,
     )
 
+    if args.behave_as and args.behave_as not in DEFAULT_ALIGNMENT_PARAMETERS:
+        logger.error('"--behave-as" received bad option.')
+        exit(1)
+
     scoring_parameter = (
         {
             "extend_gap_score": args.extend_gap_score,
