@@ -8,7 +8,7 @@ pipeline {
         }
         stage("install") {
             steps {
-                sh 'mamba env create --force --file environment.yml'
+                sh 'mamba env update --file environment.yml || mamba env create --force --file environment.yml'
                 sh 'echo "mamba activate bmlsa" >> ~/.bashrc'
             }
         }
