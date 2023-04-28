@@ -7,5 +7,6 @@
         "FASTA"
     ],
     "python.testing.pytestEnabled": true,
-    "python.analysis.inlayHints.pytestParameters": true
+    "python.analysis.inlayHints.pytestParameters": true,
+    "autoDocstring.docstringFormat": "sphinx"
 }

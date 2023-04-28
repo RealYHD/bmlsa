@@ -1,10 +1,10 @@
 import csv
-from typing import Iterable
+from typing import Generator, Iterable
 
-from bmlsa.datatypes import AlignedSequence
+from bmlsa.datatypes import QuerySequence
 
 
-def read_annotations_from_csv(
+def queries_from_csv(
     csv_path: str,
     id_header: str,
     sequence_header: str,
@@ -12,7 +12,29 @@ def read_annotations_from_csv(
     desc_header: str = None,
     start_header: str = None,
     end_header: str = None,
-):
+) -> Generator[QuerySequence, None, None]:
+    """Generates and :obj:`bmlsa.datatypes.QuerySequence` instances from a CSV file.
+
+    :param csv_path: Path to CSV to use
+    :type csv_path: str
+    :param id_header: The column title for the unique identifier for each query sequence
+    :type id_header: str
+    :param sequence_header: The column title for the sequences themselves
+    :type sequence_header: str
+    :param name_header: The column title for the name of the sequence, defaults to None
+    :type name_header: str, optional
+    :param desc_header: The column title for the description of the sequence,
+    defaults to None
+    :type desc_header: str, optional
+    :param start_header: The column title for the start position of the sequence,
+    defaults to None
+    :type start_header: str, optional
+    :param end_header: The column title for the end position of the sequence,
+    defaults to None
+    :type end_header: str, optional
+    :yield: One :obj:`bmlsa.datatypes.QuerySequence` for each row
+    :rtype: A generator that yields objects of :class:`bmlsa.datatypes.QuerySequence`
+    """
     with open(csv_path, "r") as csv_fd:
         reader = csv.reader(csv_fd)
         id_ind = None
@@ -38,7 +60,7 @@ def read_annotations_from_csv(
             desc = row[desc_ind] if desc_header else None
             start = row[start_ind] if start_header else None
             end = row[end_ind] if end_header else None
-            yield AlignedSequence(
+            yield QuerySequence(
                 id,
                 sequence,
                 name,
@@ -49,8 +71,15 @@ def read_annotations_from_csv(
 
 
 def save_alignments_to_csv(
-    aligned_pairs: Iterable[tuple[AlignedSequence, AlignedSequence]], output_path: str
-):
+    aligned_pairs: Iterable[tuple[QuerySequence, QuerySequence]], output_path: str
+) -> None:
+    """Saves alignments to a CSV.
+
+    :param aligned_pairs: An iterable of the original sequence and aligned sequences
+    :type aligned_pairs: Iterable[tuple[AlignedSequence, AlignedSequence]]
+    :param output_path: A path to the output directory
+    :type output_path: str
+    """
     with open(output_path, "w") as output_fd:
         writer = csv.writer(output_fd)
         header_wrote = False

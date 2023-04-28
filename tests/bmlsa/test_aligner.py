@@ -2,7 +2,7 @@ import pytest
 from Bio import SeqIO
 from bmlsa.aligner import align_many_to_one_ssw
 from bmlsa.cli import DEFAULT_ALIGNMENT_PARAMETERS
-from bmlsa.datatypes import AlignedSequence
+from bmlsa.datatypes import QuerySequence
 from collections.abc import Iterable
 
 
@@ -16,7 +16,7 @@ def reference_sequence():
 @pytest.fixture
 def queries():
     return [
-        AlignedSequence(
+        QuerySequence(
             "ORF10",
             "ATGGGCTATATAAACGTTTTCGCTTTTCCGTTTACGATATATAGTCTACTCTTGTGCAGAAT"
             "GAATTCTCGTAACTACATAGCACAAGTAGATGTAGTTAACTTTAATCTCACATAG",
@@ -38,8 +38,8 @@ def test_align_many_to_one_returns_correct_data_structure(reference_sequence, qu
         reference_sequence, queries, **DEFAULT_ALIGNMENT_PARAMETERS["BLASTp"]
     )
     for original, aligned_seq in results:
-        assert isinstance(original, AlignedSequence)
-        assert isinstance(aligned_seq, AlignedSequence)
+        assert isinstance(original, QuerySequence)
+        assert isinstance(aligned_seq, QuerySequence)
 
 
 def test_align_many_to_one_returns_correct_data(reference_sequence, queries):

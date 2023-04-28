@@ -1,4 +1,6 @@
-class AlignedSequence:
+class QuerySequence:
+    """Represents a sequence that may be aligned."""
+
     def __init__(
         self,
         id: str,

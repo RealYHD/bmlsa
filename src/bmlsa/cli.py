@@ -4,7 +4,7 @@ from Bio import SeqIO
 import logging
 from bmlsa.aligner import align_many_to_one_ssw
 
-from bmlsa.io import read_annotations_from_csv, save_alignments_to_csv
+from bmlsa.io import queries_from_csv, save_alignments_to_csv
 
 logger = logging.getLogger(__name__)
 
@@ -29,8 +29,8 @@ def run(args):
             "more information."
         )
         exit(3)
-    queries = read_annotations_from_csv(
-        args.annotations,
+    queries = queries_from_csv(
+        args.queries,
         args.id_header,
         args.seq_header,
         args.name_header,
@@ -59,11 +59,11 @@ def run(args):
     os.makedirs(args.output, exist_ok=True)
     with open(args.sequence, "r") as sequence_fd:
         for sequence in SeqIO.parse(sequence_fd, "fasta"):
-            aligned_annotations = align_many_to_one_ssw(
+            aligned_queries = align_many_to_one_ssw(
                 str(sequence.seq), queries, **scoring_parameter
             )
             save_alignments_to_csv(
-                aligned_annotations,
+                aligned_queries,
                 os.path.join(
                     args.output,
                     sequence.id.replace("|", "+").replace(".", "_") + ".csv",
@@ -74,11 +74,11 @@ def run(args):
 def main():
     arg_parser = argparse.ArgumentParser("bmlsa")
     arg_parser.add_argument(
-        "annotations",
+        "queries",
         type=str,
         help=(
             "Path to CSV containing the sequences to align as well as the "
-            "annotations for the respective sequences."
+            "queries for the respective sequences."
         ),
         metavar="a",
     )
