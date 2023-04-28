@@ -13,7 +13,6 @@ def read_annotations_from_csv(
     start_header: str = None,
     end_header: str = None,
 ):
-    annotations = {}
     with open(csv_path, "r") as csv_fd:
         reader = csv.reader(csv_fd)
         id_ind = None
