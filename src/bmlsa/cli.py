@@ -28,7 +28,7 @@ def run(args):
             '"--alignment-mode", or, at least "--behave-as". See help (-h) for '
             "more information."
         )
-        exit(1)
+        exit(3)
     queries = read_annotations_from_csv(
         args.annotations,
         args.id_header,
@@ -41,7 +41,7 @@ def run(args):
 
     if args.behave_as and args.behave_as not in DEFAULT_ALIGNMENT_PARAMETERS:
         logger.error('"--behave-as" received bad option.')
-        exit(1)
+        exit(3)
 
     scoring_parameter = (
         {
@@ -56,6 +56,7 @@ def run(args):
         else DEFAULT_ALIGNMENT_PARAMETERS[args.behave_as]
     )
 
+    os.makedirs(args.output, exist_ok=True)
     with open(args.sequence, "r") as sequence_fd:
         for sequence in SeqIO.parse(sequence_fd, "fasta"):
             aligned_annotations = align_many_to_one_ssw(
