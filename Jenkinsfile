@@ -21,13 +21,16 @@ pipeline {
         stage("build") {
             steps {
                 sh "python -m build"
+                sh 'sphinx-apidoc -o docs/source/ src/bmlsa'
+                sh 'make -C docs html'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'docs/build/html', reportFiles: 'index.html', reportName: 'BMLSA Docs', reportTitles: ''])
             }
         }
         stage("test installation") {
             steps {
                 sh "pip install dist/*.whl --force-reinstall"
                 sh "bmlsa -h"
-                sh "bmlsa -I id -S sequence -B BLASTp tests/resources/SARS_CoV-2_genes.csv tests/resources/NC_045512_coding.fasta /output/"
+                sh "bmlsa -I id -S sequence -B BLASTp tests/resources/SARS_CoV-2_genes.csv tests/resources/NC_045512_coding.fasta ./output/"
             }
         }
         stage("archive") {
