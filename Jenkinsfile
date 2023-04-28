@@ -1,12 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage("clean") {
-            steps {
-                sh 'rm -rf ./dist/*'
-                sh 'rm -rf ./docs/build/*'
-            }
-        }
         stage("install") {
             steps {
                 sh 'mamba env update --file environment.yml || mamba env create --force --file environment.yml'
@@ -21,6 +15,8 @@ pipeline {
         }
         stage("build") {
             steps {
+                sh 'rm -rf ./dist/*'
+                sh 'rm -rf ./docs/build/*'
                 sh "python -m build"
                 sh 'sphinx-apidoc -o docs/source/ src/bmlsa --force'
                 sh 'make -C docs html'
