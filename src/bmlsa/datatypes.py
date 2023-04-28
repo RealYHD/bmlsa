@@ -14,7 +14,7 @@ class AlignedSequence:
         self._end = end
         self._id = id
         self._name = name
-        self._sequence = sequence
+        self._sequence = sequence.replace("\n", "").replace("\r", "")
         self._score = score
 
     @property
