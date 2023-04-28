@@ -23,14 +23,11 @@ def queries_from_csv(
     :type sequence_header: str
     :param name_header: The column title for the name of the sequence, defaults to None
     :type name_header: str, optional
-    :param desc_header: The column title for the description of the sequence,
-        defaults to None
+    :param desc_header: The column title for the description of the sequence, defaults to None
     :type desc_header: str, optional
-    :param start_header: The column title for the start position of the sequence,
-        defaults to None
+    :param start_header: The column title for the start position of the sequence, defaults to None
     :type start_header: str, optional
-    :param end_header: The column title for the end position of the sequence,
-        defaults to None
+    :param end_header: The column title for the end position of the sequence, defaults to None
     :type end_header: str, optional
     :yield: One :obj:`bmlsa.datatypes.QuerySequence` for each row
     :rtype: A generator that yields objects of :class:`bmlsa.datatypes.QuerySequence`

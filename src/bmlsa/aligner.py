@@ -26,11 +26,9 @@ def align_many_to_one_ssw(
     :type open_gap_score: int
     :param alignment_mode: The alignment mode to use. Either "local" or "global".
     :type alignment_mode: str
-    :param substitution_matrix: The name of the substitution matrix available
-        in :mod:`Bio.Align`, defaults to "BLOSUM62"
+    :param substitution_matrix: The name of the substitution matrix available in :mod:`Bio.Align`, defaults to "BLOSUM62"
     :type substitution_matrix: str, optional
-    :yield: Pairs of :obj:`bmlsa.datatypes.QuerySequence` objects where the first is
-        the original, and the second is the aligned version
+    :yield: Pairs of :obj:`bmlsa.datatypes.QuerySequence` objects where the first is the original, and the second is the aligned version
     :rtype: a generator of :obj:`bmlsa.datatypes.QuerySequence` objects
     """
     # TODO Consider using the built in "scoring" parameter
