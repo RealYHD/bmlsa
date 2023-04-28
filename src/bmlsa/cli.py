@@ -166,7 +166,7 @@ def main():
     arg_parser.add_argument(
         "-m",
         "--substitution-matrix",
-        type="str",
+        type=str,
         help="The name of the substitution matrix.",
         required=False,
         default=None,
