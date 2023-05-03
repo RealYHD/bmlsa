@@ -4,7 +4,6 @@ pipeline {
         stage("install") {
             steps {
                 sh 'mamba env update --file environment.yml --prefix ./env || mamba env create --force --file environment.yml --prefix ./env'
-                sh 'echo "mamba activate bmlsa" >> ~/.bashrc'
             }
         }
         stage("unit tests") {
