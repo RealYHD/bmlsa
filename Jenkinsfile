@@ -3,8 +3,7 @@ pipeline {
     stages {
         stage("install") {
             steps {
-                sh 'mamba env update --file environment.yml || mamba env create --force --file environment.yml'
-                sh 'echo "mamba activate bmlsa" >> ~/.bashrc'
+                sh 'mamba env update --file environment.yml --prefix ./env || mamba env create --force --file environment.yml --prefix ./env'
             }
         }
         stage("unit tests") {
@@ -19,7 +18,7 @@ pipeline {
                 sh 'rm -rf ./docs/build/*'
                 sh "python -m build"
                 sh 'sphinx-apidoc -o docs/source/autodoc/bmlsa src/bmlsa --force'
-                sh 'make -C docs html'
+                sh 'sphinx-build -M html ./docs/source ./docs/build'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'docs/build/html', reportFiles: 'index.html', reportName: 'Documentation', reportTitles: ''])
             }
         }

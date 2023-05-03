@@ -9,3 +9,4 @@ dependencies:
   - python-build=0.10.0
   - setuptools=67.6
   - sphinx=6.2
+prefix: ./env
