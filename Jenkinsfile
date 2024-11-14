@@ -24,9 +24,11 @@ pipeline {
                 sh 'rm -rf ./dist/*'
                 sh 'rm -rf ./docs/build/*'
                 sh "python -m build"
-                sh 'sphinx-apidoc -o docs/source/autodoc/bmlsa src/bmlsa --force'
-                sh 'sphinx-build -M html ./docs/source ./docs/build'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'docs/build/html', reportFiles: 'index.html', reportName: 'Documentation', reportTitles: ''])
+                container('sphinx') {
+                    sh 'sphinx-apidoc -o docs/source/autodoc/bmlsa src/bmlsa --force'
+                    sh 'sphinx-build -M html ./docs/source ./docs/build'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'docs/build/html', reportFiles: 'index.html', reportName: 'Documentation', reportTitles: ''])
+                }
             }
         }
         stage("test installation") {
@@ -46,7 +48,7 @@ pipeline {
                 branch '**/master'
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'rs-git-package-registry-ydeng', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                withCredentials([usernamePassword(credentialsId: '4d6f64be-d26d-4f95-8de3-b6a9b0beb311', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh returnStatus: true, script: 'python -m twine upload --repository-url https://git.reslate.systems/api/packages/${USER}/pypi -u ${USER} -p ${PASS} --non-interactive --disable-progress-bar --verbose dist/*'
                 }
             }
