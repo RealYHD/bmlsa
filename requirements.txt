@@ -2,5 +2,5 @@ biopython==1.81
 pytest
 hypothesis
 twine
-python-build
+build
 setuptools
